@@ -1,0 +1,30 @@
+<template>
+    <lightning-card variant="Narrow" title="New note" icon-name="standard:notes">
+        <lightning-modal-header label="Note">
+        </lightning-modal-header>
+    <lightning-modal-body>
+        <div class="slds-var-p-around_medium lgc-bg">
+            <lightning-input
+            type="text"
+            label="Label"
+            onchange={handleLabelChange}
+            ></lightning-input>
+        </div>
+        <div class="row slds-var-p-around_medium lgc-bg">
+            <lightning-textarea 
+            name="input1" 
+            label="Description" 
+            value={descriptionValue}
+            onchange={handleDescriptionChange} 
+            ></lightning-textarea>
+        </div>
+    </lightning-modal-body> 
+    <lightning-modal-footer>
+        <lightning-button
+        label="Save"
+        variant="Brand"
+        onclick={handleSave}>
+        </lightning-button>
+    </lightning-modal-footer> 
+    </lightning-card>
+</template>

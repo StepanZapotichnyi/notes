@@ -1,0 +1,35 @@
+<template>
+    <lightning-card title="Notes"> 
+        <lightning-button 
+                    label="Add"
+                    slot="actions"
+                    variant="Brand"
+                    aria-haspopup="dialog"
+                    onclick={handleAdd}
+                ></lightning-button>
+    <lightning-layout>
+        <lightning-layout-item size="12" class="notes-container">    
+                <template for:each={savedData} for:item="note">
+                    <div key={note.Id} class="note-sticker">
+                        <div class="slds-var-p-around_medium lgc-bg">
+                            <lightning-button
+                                label="X"
+                                slot="actions"
+                                variant="Destructive"
+                                class="delete-button" 
+                                data-id={note.Id}
+                                onclick={handleDelete}>
+                            </lightning-button>
+                                <div class="slds-var-p-around_medium lgc-bg">
+                                    <p class="note-label">Label: {note.label}</p>
+                                    <p class="note-description">Description: {note.description}</p>
+                                    <p clas="note-date">{note.Created_Date__c}</p>
+                                    {note.Id}
+                                </div>
+                        </div>                          
+                    </div>
+                </template>
+        </lightning-layout-item>
+    </lightning-layout>
+    </lightning-card>
+</template>
