@@ -1,12 +1,13 @@
 <template>
-    <lightning-card title="Notes"> 
+    <lightning-card title="Notes">
+     
         <lightning-button 
                     label="Add"
                     slot="actions"
                     variant="Brand"
                     aria-haspopup="dialog"
                     onclick={handleAdd}
-                ></lightning-button>
+        ></lightning-button>
     <lightning-layout>
         <lightning-layout-item size="12" class="notes-container">    
                 <template for:each={savedData} for:item="note">
@@ -16,46 +17,25 @@
                             <div class="slds-grow">
                                 <div class="slds-var-p-around_medium lgc-bg">
                                     <p class="note-label">{note.Label__c}</p>
+                                    <div class="slds-shrink">
+                                        <lightning-button-icon
+                                        icon-name="utility:delete"
+                                        variant="base"
+                                        alternative-text="Delete"
+                                        class="slds-button_icon-small slds-float_right slds-m-top_xx-small"
+                                        data-id={note.Id}
+                                        onclick={handleDelete}>
+                                        </lightning-button-icon>
+                                    </div>
                                     <div class="note-description">  
                                         <pre>{note.Description__c}</pre>
                                     </div>
-                                    
                                 </div>
-                            </div>
-                            <div class="slds-shrink">
-                                <lightning-button-icon
-                                icon-name="utility:delete"
-                                variant="base"
-                                alternative-text="Delete"
-                                class="slds-m-top_xx-small"
-                                data-id={note.Id}
-                                onclick={handleDelete}>
-
-                                </lightning-button-icon>
-                            </div>
+                            </div>    
                         </div>
                         <div class="slds-var-p-around_medium lgc-bg slds-text-align_left">
                             <p class="note-date">{note.Created_Date__c}</p>
                         </div>
-                        <!-- <div class="slds-var-p-around_medium lgc-bg">
-                            <lightning-button-icon
-                                icon-name="utility:delete"
-                                variant="base"
-                                alternative-text="Delete"
-                                class="slds-m-left_xx-small" 
-                                data-id={note.Id}
-                                onclick={handleDelete}>
-                            </lightning-button-icon> -->
-                                <!-- <div class="slds-var-p-around_medium lgc-bg">
-                                    <p class="note-label">Label: {note.Label__c}</p>
-                                    <div class="note-description">
-                                        Description:
-                                        <pre>{note.Description__c}</pre>
-                                    </div>
-                                    
-                                    {note.Id}
-                                </div> -->
-                        <!-- </div>                           -->
                     </div>
                 </template>
         </lightning-layout-item>
