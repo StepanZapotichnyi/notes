@@ -1,6 +1,6 @@
 public with sharing class NoteController {
     @AuraEnabled
-    public static Note__c saveData(String label, String description) {
+    public static Id saveData(String label, String description ) {
         try {
             
             Note__c newNote = new Note__c();
@@ -9,10 +9,10 @@ public with sharing class NoteController {
             newNote.Created_Date__c = Date.today();
     
             insert newNote;             
-            return newNote;
+            return newNote.Id;
         } catch (Exception e) {
-            throw e; 
-
+            System.debug('Error saving data: ' + e.getMessage());
+            return null;
             // return 'Error saving data: ' + e.getMessage();
         }
     }
@@ -32,8 +32,8 @@ public with sharing class NoteController {
         }
     }
 
-    // @AuraEnabled(cacheable=true)
-    // public static List<Note__c> getSavedNotes() {
-    //     return [SELECT Id, Label__c, Created_Date__c, Description__c FROM Note__c ORDER BY Created_Date__c DESC];
-    // }
+    @AuraEnabled(cacheable=true)
+    public static List<Note__c> getSavedNotes() {
+        return [SELECT Id, Label__c, Created_Date__c, Description__c FROM Note__c ORDER BY Created_Date__c DESC];
+    }
 }
