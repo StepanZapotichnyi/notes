@@ -4,9 +4,7 @@
     justify-content: flex-start;
     gap: 10px;
 }
-/* .slds-input{
-    margin-top: -20px;
-} */
+
 
 .note-sticker {
     width: 227px;
@@ -20,10 +18,6 @@
     overflow: hidden;
     margin: 5px;
     position: relative;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    -ms-border-radius: 5px;
-    -o-border-radius: 5px;
 }
 .note-date{
     position: absolute;

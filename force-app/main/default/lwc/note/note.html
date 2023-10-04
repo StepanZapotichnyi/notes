@@ -1,21 +1,34 @@
 <template>
     <lightning-card title="Notes">
-     
         <lightning-button 
                     label="Add"
                     slot="actions"
                     variant="Brand"
-                    aria-haspopup="dialog"
                     onclick={handleAdd}
         ></lightning-button>
+        <div class="slds-var-p-around_medium slds-grid ">
+            <div class="slds-col ">
+                <lightning-input
+                    type="date"
+                    label="Search by date"
+                    value={searchDate}
+                    onchange={handleDateChange}
+                ></lightning-input>
+                        <lightning-button
+                            label="Search"
+                            variant="brand"
+                            onclick={handleSearch}
+                        ></lightning-button>
+            </div>         
+        </div>
     <lightning-layout>
         <lightning-layout-item size="12" class="notes-container">    
                 <template for:each={savedData} for:item="note">
                     <div key={note.Id} class="note-sticker">
                         <!-- new -->
-                        <div class="slds-var-p-around_medium lgc-bg slds-grid slds-grid_vertical-align-center">
+                        <div class="slds-var-p-around_medium slds-grid slds-grid_vertical-align-center">
                             <div class="slds-grow">
-                                <div class="slds-var-p-around_medium lgc-bg">
+                                <div class="slds-var-p-around_medium">
                                     <p class="note-label">{note.Label__c}</p>
                                     <div class="slds-shrink">
                                         <lightning-button-icon
@@ -33,8 +46,8 @@
                                 </div>
                             </div>    
                         </div>
-                        <div class="slds-var-p-around_medium lgc-bg slds-text-align_left">
-                            <p class="note-date">{note.Created_Date__c}</p>
+                        <div class="slds-var-p-around_medium slds-text-align_left">
+                            <b class="note-date">{note.Created_Date__c}</b>
                         </div>
                     </div>
                 </template>
