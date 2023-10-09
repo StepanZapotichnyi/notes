@@ -2,6 +2,7 @@
 import { LightningElement, track } from 'lwc';
 import { ShowToastEvent} from 'lightning/platformShowToastEvent';
 import MyModal from 'c/myModal';
+import DeleteStiker from 'c/deleteStiker';
 import saveData from '@salesforce/apex/NoteController.saveData'
 import deleteNoteOnServer from '@salesforce/apex/NoteController.deleteNoteOnServer';
 import getSavedNotes from '@salesforce/apex/NoteController.getSavedNotes';
@@ -16,15 +17,33 @@ export default class Note extends LightningElement {
     }
 
 
-    loadSavedData() {
-         getSavedNotes()
-            .then((result)=>{
-                this.savedData = result;
-            })
-            .catch((error)=> {
+    async loadSavedData(){
+        console.log('Loading data from server...');
+        try{
+            const result = await getSavedNotes();
+            this.savedData = result;
+            console.log('Saved Data: ', this.savedData);
+        }catch (error){
             console.error('Error loading data', error);
-            });
+        }
+        console.log('Updated savedData: ', this.savedData);
     }
+
+    //  loadSavedData() {
+         
+    //     console.log('Loading data from server...');
+    //     getSavedNotes()
+         
+
+    //         .then((result)=>{
+    //             this.savedData = result;
+    //             console.log('Saved Data: ',  this.savedData);
+    //         })
+    //         .catch((error)=> {
+    //         console.error('Error loading data', error);
+    //         });
+    //     console.log('Updated savedData: ', this.savedData);
+    // }
     connectedCallback(){
         this.loadSavedData();
     }
@@ -44,13 +63,13 @@ export default class Note extends LightningElement {
                     description: result.description
                 });
                     if(savedNoteId){
-                        const savedNote = {
-                            Id: savedNoteId,
-                            Label__c: result.label,
-                            Description__c: result.description,
-                            Created_Date__c: new Date().toISOString()
-                        };
-                        this.savedData = [...this.savedData, savedNote];
+                    //     const savedNote = {
+                    //         Id: savedNoteId,
+                    //         Label__c: result.label,
+                    //         Description__c: result.description,
+                    //         Created_Date__c: new Date().toISOString()
+                    //     };
+                    //     this.savedData = [...this.savedData, savedNote];
 
                         this.dispatchEvent(
                             new ShowToastEvent({
@@ -59,8 +78,10 @@ export default class Note extends LightningElement {
                                 variant: 'success',
                             })
                         );
-                        this.loadSavedData();
+                     this.loadSavedData();
+                        
                     }else {
+                        console.error('Error saving data: ' + error);
                         this.dispatchEvent(
                             new ShowToastEvent({
                                 title: 'Error',
@@ -71,7 +92,7 @@ export default class Note extends LightningElement {
                     }
             
                 } catch (error)  {
-                console.error('Error saving data: ',error)
+                console.error('Error saving data: '+ error);
                 this.dispatchEvent(
                     new ShowToastEvent({
                         title: 'Error',
@@ -85,8 +106,21 @@ export default class Note extends LightningElement {
 
     
     async handleDelete(event) {
+
+        
         const noteId = event.target.dataset.id;
         // console.log(event?.detail?.dataset?.id);
+        const deletPopap = await DeleteStiker.open({
+            size: 'small',
+            description: 'This is a modal popap',
+            noteId: noteId
+
+        });
+        console.log('Popap : '+ deletPopap);
+
+        const result = await deletPopap;
+
+        if (result === "Yes") {        
     
         try {
             const result = await deleteNoteOnServer({ noteId: noteId });
@@ -114,12 +148,27 @@ export default class Note extends LightningElement {
         }catch(error){
             console.error('Error deleting note: ', error);
         }
+        }
     }
 // looking for today's date only ????
     async handleSearch(){
+        
+        if(!this.searchDate){
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: 'Error',
+                    message: 'Place enter a search date',
+                    variant: 'error',
+                })
+            );
+            return;
+        }
+        
+        
         try{
             this.savedData = await searchNotesByDate({ searchDate: this.searchDate });
             console.log('Res ' +  this.savedData);
+            this.searchDate = '';
         }catch(error){
             console.error('Error searching notes by dae: ', error);
             this.dispatchEvent(

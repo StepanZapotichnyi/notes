@@ -1,0 +1,18 @@
+<template>
+    <lightning-modal-header label="Delete"></lightning-modal-header>
+    <lightning-modal-body>Are you sure you want to delete this note?</lightning-modal-body>
+    <lightning-modal-footer>
+        <lightning-button
+        label="Yes"
+        variant="Brand" 
+        onclick={handleYes}>
+        </lightning-button>
+
+        <lightning-button 
+        label="No"
+        variant="Neutral"
+        onclick={handleNo}>
+        </lightning-button>
+    </lightning-modal-footer>
+    
+</template>

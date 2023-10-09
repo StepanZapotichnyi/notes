@@ -2,23 +2,26 @@
     <lightning-card title="Notes">
         <lightning-button 
                     label="Add"
+                    class="search-input"
                     slot="actions"
                     variant="Brand"
                     onclick={handleAdd}
         ></lightning-button>
-        <div class="slds-var-p-around_medium slds-grid ">
-            <div class="slds-col ">
+        <div class="slds-var-p-around_medium slds-grid slds-align-absolute-center">
+            <div class="slds-col">
                 <lightning-input
                     type="date"
                     label="Search by date"
                     value={searchDate}
                     onchange={handleDateChange}
                 ></lightning-input>
+                    <div class="slds-col">
                         <lightning-button
                             label="Search"
                             variant="brand"
                             onclick={handleSearch}
                         ></lightning-button>
+                    </div>                    
             </div>         
         </div>
     <lightning-layout>
