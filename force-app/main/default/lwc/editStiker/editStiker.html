@@ -1,0 +1,24 @@
+    <template>
+        <lightning-modal-header label="Edit Sticker" ></lightning-modal-header>
+        <lightning-modal-body>
+            <div class="wraper">
+                <!-- <lightning-input
+                    label="Label"
+                    value={useDate.Label.Label__c}
+                    onchange={handleLabelChange}     
+                ></lightning-input> -->
+                <input class="sticker-label" label="Label" type="text" value={useDate.Label__c} onchange={handleLabelChange}>    
+                <!-- <p class="sticker-label">Label: {useDate.Label__c}</p> -->
+                <textarea class="sticker-description" label="Description" type="text"  onchange={handleDescriptionChange}>{useDate.Description__c}</textarea>
+                <!-- <p class="sticker-description">Description: {useDate.Description__c}</p> -->
+                <p class=" sticker-created_date">Created date: {useDate.Created_Date__c}</p>
+            </div>
+        </lightning-modal-body>
+        <lightning-modal-footer>
+            <lightning-button
+            label="Save"
+            variant="Brand"
+            onclick={handleEdit}>
+            </lightning-button>
+        </lightning-modal-footer>
+    </template>

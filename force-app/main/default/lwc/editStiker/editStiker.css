@@ -1,0 +1,38 @@
+.wraper{
+    width: 430px;
+    height: 430px;
+    left: 50%;
+    border: 1px solid #000000;
+    background-color: yellow;
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+
+.sticker-label{
+    font-weight: bold;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    background-color: yellow;
+    margin-top: 10px;
+}
+.sticker-description{
+    margin-top: 30px;
+    max-height: 150px;
+    max-width: 150px;
+    background-color: yellow;
+    border: none;
+    box-shadow: none;
+    outline: none;
+}
+.sticker-created_date{
+    bottom: 5px;
+    left: 30px;
+    color: #000;
+    font-size: 12px;
+}

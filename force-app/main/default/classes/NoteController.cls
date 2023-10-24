@@ -6,7 +6,7 @@ public with sharing class NoteController {
             Note__c newNote = new Note__c();
             newNote.Label__c = label;
             newNote.Description__c = description;
-            newNote.Created_Date__c = Date.today();
+            newNote.Created_Date__c = Datetime.now();
     
             insert newNote;
 
@@ -33,7 +33,7 @@ public with sharing class NoteController {
             }
     }
 
-    @AuraEnabled(cacheable=true)
+    @AuraEnabled
     public static List<Note__c> getSavedNotes() {
         return [SELECT Id, Label__c, Created_Date__c, Description__c FROM Note__c ORDER BY Created_Date__c DESC];
     }
@@ -49,6 +49,33 @@ public with sharing class NoteController {
         } catch (Exception e) {
             throw new AuraHandledException('Error searching notes by datw: ' + e.getMessage());
         } 
+        
+    }
+
+    @AuraEnabled
+    public static Note__c updateNote(String noteId, String changeLabelValue, String changeDescriptionValue){
+        
+        System.debug('Method updateNote: ============');
+        System.debug('nnteId: ' + noteId);
+        System.debug('changeLabelValue: ' + changeLabelValue);
+        System.debug('changeDescriptionValue:' + changeDescriptionValue);
+        
+        
+        Note__c note = [SELECT Id FROM Note__c WHERE Id = :noteId LIMIT 1];
+
+        if(note !=  null){
+            note.Label__c = changeLabelValue;
+            note.Description__c = changeDescriptionValue;
+            
+            update note; 
+            System.debug('Update========' + note); 
+        
+            return note;
+        }
+
+        System.debug('Note is not defined====');
+        return null;
+
         
     }
     

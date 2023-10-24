@@ -1,20 +1,32 @@
 
-import { LightningElement, track } from 'lwc';
+import { LightningElement, track, api } from 'lwc';
 import { ShowToastEvent} from 'lightning/platformShowToastEvent';
 import MyModal from 'c/myModal';
 import DeleteStiker from 'c/deleteStiker';
+import EditStiker from 'c/editStiker';
 import saveData from '@salesforce/apex/NoteController.saveData'
 import deleteNoteOnServer from '@salesforce/apex/NoteController.deleteNoteOnServer';
 import getSavedNotes from '@salesforce/apex/NoteController.getSavedNotes';
 import searchNotesByDate from '@salesforce/apex/NoteController.searchNotesByDate';
+import updateNote from '@salesforce/apex/NoteController.updateNote';
+
 export default class Note extends LightningElement {
+
 
     @track savedData= [];
     @track searchDate = '';
+    noteUse = [];
+    
+    // updateLabel = '';
+    // updateDescription = '';
+
+
+
 
     handleDateChange(event) {
         this.searchDate = event.target.value;
     }
+    
 
 
     async loadSavedData(){
@@ -22,12 +34,19 @@ export default class Note extends LightningElement {
         try{
             const result = await getSavedNotes();
             this.savedData = result;
-            console.log('Saved Data: ', this.savedData);
+            console.log('Saved Data: ', JSON.stringify(this.savedData));
+            console.log('Saved Data: ', JSON.stringify(result));
         }catch (error){
             console.error('Error loading data', error);
         }
         console.log('Updated savedData: ', this.savedData);
     }
+
+    connectedCallback(){
+        this.loadSavedData();
+        console.log('Work');
+    }
+
 
     //  loadSavedData() {
          
@@ -44,10 +63,7 @@ export default class Note extends LightningElement {
     //         });
     //     console.log('Updated savedData: ', this.savedData);
     // }
-    connectedCallback(){
-        this.loadSavedData();
-    }
-
+    
     //to do does not update when added
     async handleAdd(){
         const result = await MyModal.open({
@@ -62,15 +78,18 @@ export default class Note extends LightningElement {
                     label: result.label,
                     description: result.description
                 });
-                    if(savedNoteId){
-                    //     const savedNote = {
-                    //         Id: savedNoteId,
-                    //         Label__c: result.label,
-                    //         Description__c: result.description,
-                    //         Created_Date__c: new Date().toISOString()
-                    //     };
-                    //     this.savedData = [...this.savedData, savedNote];
 
+                console.log('Saved note ID:', savedNoteId);
+                    if(savedNoteId){
+                        // const savedNote = {
+                        //     Id: savedNoteId,
+                        //     Label__c: result.label,
+                        //     Description__c: result.description,
+                        //     Created_Date__c: new Date().toISOString()
+                        // };
+                        // this.savedData = [...this.savedData, savedNote];
+                    // console.log('Note added successfully');
+                    // await this.loadSavedData();
                         this.dispatchEvent(
                             new ShowToastEvent({
                                 title: 'Success',
@@ -78,7 +97,9 @@ export default class Note extends LightningElement {
                                 variant: 'success',
                             })
                         );
-                     this.loadSavedData();
+
+                            console.log('Note added successfully');
+                         await this.loadSavedData();
                         
                     }else {
                         console.error('Error saving data: ' + error);
@@ -150,7 +171,8 @@ export default class Note extends LightningElement {
         }
         }
     }
-// looking for today's date only ????
+
+
     async handleSearch(){
         
         if(!this.searchDate){
@@ -178,6 +200,61 @@ export default class Note extends LightningElement {
                     variant: 'error'
                 })
             );
+        }
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////THis
+    
+    async handleStickerEdit(event){
+
+        const noteId = event.currentTarget.dataset.id;
+        console.log('Event ==== ' + noteId);
+
+        this.noteUse = this.savedData.filter((note) => note.Id === noteId);
+        console.log('Sticker number Id:===== ' +  this.noteUse);    
+
+        const editSticker = await EditStiker.open({
+            Label: 'Edit Sticker',
+            size : 'small',
+            description: 'Edit Sticker popap',
+            useDate: this.noteUse
+/////////////////////////////////////////////////////////////////////////////////////
+        });
+        if (editSticker) {
+            try{
+                const upDateNote = await updateNote({
+                    noteId: editSticker.suseDate.Id,
+                    label: editSticker.changeLabelValue,
+                    description: editSticker.changeDescriptionValue
+                });
+
+                    if(upDateNote === 'Success'){
+                        this.dispatchEvent(
+                            new ShowToastEvent({
+                                title: 'Edit Sticker',
+                                message: 'Update successfully',
+                                variant: 'success'
+                            })
+                        );
+                    }else{
+                        this.dispatchEvent(
+                            new ShowToastEvent({
+                                title: 'error',
+                                message: 'An error update',
+                                variant: 'error'
+                            })
+                        );
+                    }
+
+            } catch (error){
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: 'error',
+                        message: 'An error occurred while updating data',
+                        variant: 'error'
+                    })
+                );
+            }
         }
     }
 }

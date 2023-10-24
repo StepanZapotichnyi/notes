@@ -1,5 +1,6 @@
 <template>
     <lightning-card title="Notes">
+        
         <lightning-button 
                     label="Add"
                     class="search-input"
@@ -7,7 +8,7 @@
                     variant="Brand"
                     onclick={handleAdd}
         ></lightning-button>
-        <div class="slds-var-p-around_medium slds-grid slds-align-absolute-center">
+        <div class="slds-var-p-around_medium slds-grid ">
             <div class="slds-col">
                 <lightning-input
                     type="date"
@@ -26,8 +27,8 @@
         </div>
     <lightning-layout>
         <lightning-layout-item size="12" class="notes-container">    
-                <template for:each={savedData} for:item="note">
-                    <div key={note.Id} class="note-sticker">
+            <template for:each={savedData} for:item="note">   
+                    <div key={note.Id} class="note-sticker" onclick={handleStickerEdit} data-id={note.Id}> 
                         <!-- new -->
                         <div class="slds-var-p-around_medium slds-grid slds-grid_vertical-align-center">
                             <div class="slds-grow">
@@ -35,12 +36,12 @@
                                     <p class="note-label">{note.Label__c}</p>
                                     <div class="slds-shrink">
                                         <lightning-button-icon
-                                        icon-name="utility:delete"
-                                        variant="base"
-                                        alternative-text="Delete"
-                                        class="slds-button_icon-small slds-float_right slds-m-top_xx-small"
-                                        data-id={note.Id}
-                                        onclick={handleDelete}>
+                                            icon-name="utility:delete"
+                                            variant="base"
+                                            alternative-text="Delete"
+                                            class="slds-button_icon-small slds-float_right slds-m-top_xx-small"
+                                            data-id={note.Id}
+                                            onclick={handleDelete}>
                                         </lightning-button-icon>
                                     </div>
                                     <div class="note-description">  
@@ -53,8 +54,10 @@
                             <b class="note-date">{note.Created_Date__c}</b>
                         </div>
                     </div>
+                    
                 </template>
         </lightning-layout-item>
     </lightning-layout>
+    <!-- <c-edit-stiker use-date={noteUse}></c-edit-stiker> -->
     </lightning-card>
 </template>
