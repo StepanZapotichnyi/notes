@@ -1,19 +1,21 @@
 <template>
-    <lightning-modal-header label="Delete"></lightning-modal-header>
-    <lightning-modal-body>Are you sure you want to delete this note?</lightning-modal-body>
-    <lightning-modal-footer>
-        <lightning-button
-        label="Yes"
-        variant="Brand" 
-        class="slds-m-right_small"
-        onclick={handleYes}>
-        </lightning-button>
+    <div class="demo-only" style="height:24rem">
+        <section role="dialog" tabindex="0" aria-modal="true" aria-labelledby="prompt-heading-id" aria-describedby="promt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal_promt">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header slds-theme_error slds-theme_alert-texture">
+                    <h1 class="slds-text-heading_medium" id="promt-heading-id">Delete</h1>
 
-        <lightning-button 
-        label="No"
-        variant="Neutral"
-        onclick={handleNo}>
-        </lightning-button>
-    </lightning-modal-footer>
-    
+                </div>
+                <div class="slds-modal__content slds-p-around_medium" id="prompt-message-wraper">
+                    <p>Are you sure you want to delete this note?</p>
+                </div>
+                <div class="slds-modal__footer slds-theme_default">
+                    <lightning-button label="Yes" variant="Brand" class="slds-m-right_small" onclick={handleYes}>  </lightning-button>
+                    <lightning-button label="No" variant="Neutral" onclick={handleNo}></lightning-button>
+            
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </div>
 </template>

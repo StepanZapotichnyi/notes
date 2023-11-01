@@ -1,5 +1,3 @@
-import { LightningElement } from 'lwc';
-// import saveData from '@salesforce/apex/NoteController.saveData';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import  LightningModal  from 'lightning/modal';
 

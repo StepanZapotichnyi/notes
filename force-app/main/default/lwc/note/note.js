@@ -1,11 +1,11 @@
 
-import { LightningElement, track, api } from 'lwc';
+import { LightningElement, track } from 'lwc';
 import { ShowToastEvent} from 'lightning/platformShowToastEvent';
 import MyModal from 'c/myModal';
-import DeleteStiker from 'c/deleteStiker';
+// import DeleteStiker from 'c/deleteStiker';
 import EditStiker from 'c/editStiker';
 import saveData from '@salesforce/apex/NoteController.saveData'
-import deleteNoteOnServer from '@salesforce/apex/NoteController.deleteNoteOnServer';
+// import deleteNoteOnServer from '@salesforce/apex/NoteController.deleteNoteOnServer';
 import getSavedNotes from '@salesforce/apex/NoteController.getSavedNotes';
 import searchNotesByDate from '@salesforce/apex/NoteController.searchNotesByDate';
 import updateNote from '@salesforce/apex/NoteController.updateNote';
@@ -15,13 +15,7 @@ export default class Note extends LightningElement {
 
     @track savedData= [];
     @track searchDate = '';
-    noteUse = [];
-    
-    // updateLabel = '';
-    // updateDescription = '';
-
-
-
+    noteUse;
 
     handleDateChange(event) {
         this.searchDate = event.target.value;
@@ -39,7 +33,7 @@ export default class Note extends LightningElement {
         }catch (error){
             console.error('Error loading data', error);
         }
-        console.log('Updated savedData: ', this.savedData);
+        // console.log('Updated savedData: ', this.savedData);
     }
 
     connectedCallback(){
@@ -47,31 +41,13 @@ export default class Note extends LightningElement {
         console.log('Work');
     }
 
-
-    //  loadSavedData() {
-         
-    //     console.log('Loading data from server...');
-    //     getSavedNotes()
-         
-
-    //         .then((result)=>{
-    //             this.savedData = result;
-    //             console.log('Saved Data: ',  this.savedData);
-    //         })
-    //         .catch((error)=> {
-    //         console.error('Error loading data', error);
-    //         });
-    //     console.log('Updated savedData: ', this.savedData);
-    // }
-    
-    //to do does not update when added
     async handleAdd(){
         const result = await MyModal.open({
             size: 'Small',
             label: 'Note',
             description: 'This is a modal popup'
         });
-
+        console.log('work' +  result);
         if(result) {
             try{
                 const savedNoteId = await saveData({
@@ -79,17 +55,8 @@ export default class Note extends LightningElement {
                     description: result.description
                 });
 
-                console.log('Saved note ID:', savedNoteId);
+                // console.log('Saved note ID:', savedNoteId);
                     if(savedNoteId){
-                        // const savedNote = {
-                        //     Id: savedNoteId,
-                        //     Label__c: result.label,
-                        //     Description__c: result.description,
-                        //     Created_Date__c: new Date().toISOString()
-                        // };
-                        // this.savedData = [...this.savedData, savedNote];
-                    // console.log('Note added successfully');
-                    // await this.loadSavedData();
                         this.dispatchEvent(
                             new ShowToastEvent({
                                 title: 'Success',
@@ -98,7 +65,7 @@ export default class Note extends LightningElement {
                             })
                         );
 
-                            console.log('Note added successfully');
+                            // console.log('Note added successfully');
                          await this.loadSavedData();
                         
                     }else {
@@ -126,51 +93,51 @@ export default class Note extends LightningElement {
     }
 
     
-    async handleDelete(event) {
+    // async handleDelete(event) {
 
         
-        const noteId = event.target.dataset.id;
-        // console.log(event?.detail?.dataset?.id);
-        const deletPopap = await DeleteStiker.open({
-            size: 'small',
-            description: 'This is a modal popap',
-            noteId: noteId
+    //     const noteId = event.target.dataset.id;
+    //     // console.log(event?.detail?.dataset?.id);
+    //     const deletPopap = await DeleteStiker.open({
+    //         size: 'small',
+    //         description: 'This is a modal popap',
+    //         noteId: noteId
 
-        });
-        console.log('Popap : '+ deletPopap);
+    //     });
+    //     console.log('Popap : '+ deletPopap);
 
-        const result = await deletPopap;
+    //     const result = await deletPopap;
 
-        if (result === "Yes") {        
+    //     if (result === "Yes") {        
     
-        try {
-            const result = await deleteNoteOnServer({ noteId: noteId });
+    //     try {
+    //         const result = await deleteNoteOnServer({ noteId: noteId });
 
-            if (result === 'Success'){
-                this.savedData = this.savedData.filter((note)=> note.Id !== noteId);
-                this.dispatchEvent(
-                    new ShowToastEvent({
-                        title: 'Success',
-                        message: 'Data deleted successfully',
-                        variant: 'success'
-                    })
-                );
-                // this.loadSavedData();
-            }else {
-                console.error('Error deleting note: ', result);
-                this.dispatchEvent(
-                    new ShowToastEvent({
-                        title: 'Error',
-                        message: 'An Error occurred while deleting data: ',
-                        variant: 'error'
-                    })
-                );
-            }
-        }catch(error){
-            console.error('Error deleting note: ', error);
-        }
-        }
-    }
+    //         if (result === 'Success'){
+    //             // this.savedData = this.savedData.filter((note)=> note.Id !== noteId);
+    //             this.dispatchEvent(
+    //                 new ShowToastEvent({
+    //                     title: 'Success',
+    //                     message: 'Data deleted successfully',
+    //                     variant: 'success'
+    //                 })
+    //             );
+    //             // this.loadSavedData();
+    //         }else {
+    //             console.error('Error deleting note: ', result);
+    //             this.dispatchEvent(
+    //                 new ShowToastEvent({
+    //                     title: 'Error',
+    //                     message: 'An Error occurred while deleting data: ',
+    //                     variant: 'error'
+    //                 })
+    //             );
+    //         }
+    //     }catch(error){
+    //         console.error('Error deleting note: ', error);
+    //     }
+    //     }
+    // }
 
 
     async handleSearch(){
@@ -203,58 +170,90 @@ export default class Note extends LightningElement {
         }
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////THis
+    ///////////////////////////////////////////////////////////////////////////////////
     
     async handleStickerEdit(event){
 
         const noteId = event.currentTarget.dataset.id;
         console.log('Event ==== ' + noteId);
 
-        this.noteUse = this.savedData.filter((note) => note.Id === noteId);
-        console.log('Sticker number Id:===== ' +  this.noteUse);    
+        this.noteUse = this.savedData.find((note) => note.Id === noteId);
+        console.log('Sticker number Id:===== ' +  JSON.stringify(this.noteUse));    
 
-        const editSticker = await EditStiker.open({
-            Label: 'Edit Sticker',
-            size : 'small',
-            description: 'Edit Sticker popap',
-            useDate: this.noteUse
-/////////////////////////////////////////////////////////////////////////////////////
-        });
-        if (editSticker) {
+            const editSticker = await EditStiker.open({
+                Label: 'Edit Sticker',
+                size : 'small',
+                description: 'Edit Sticker popap',
+                useDate: this.noteUse,
+                noteId: noteId
+
+    /////////////////////////////////////////////////////////////////////////////////////
+            });
+         console.log('1========' + editSticker);
+         console.log('1================================' + this.noteUse.Created_Date__c);
+        
+         if(editSticker ===  'ok'){
+
+            this.savedData = this.savedData.filter((note)=> note.Id !== noteId);
+            console.log('result ater delete: '+ JSON.stringify(this.savedData));
+            // await this.loadSavedData();
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: 'Success',
+                    message: 'Data deleted successfully',
+                    variant: 'success'
+                })
+            );
+            // await this.loadSavedData();
+         }else{
+         await this.handleUpdateNote(noteId, editSticker);
+
+         }
+    }
+         
+    async handleUpdateNote(noteId, editSticker){
+        
             try{
-                const upDateNote = await updateNote({
-                    noteId: editSticker.suseDate.Id,
-                    label: editSticker.changeLabelValue,
-                    description: editSticker.changeDescriptionValue
-                });
+                // console.log('Start update2');
+                // console.log('noteUse.Id: ' + editSticker.noteUse.Id);
+                // console.log('changeLabelValue: "');
+                // console.log('changeDescriptionValue: ' + editSticker.changeDescriptionValue);
 
-                    if(upDateNote === 'Success'){
-                        this.dispatchEvent(
-                            new ShowToastEvent({
-                                title: 'Edit Sticker',
-                                message: 'Update successfully',
-                                variant: 'success'
-                            })
-                        );
-                    }else{
-                        this.dispatchEvent(
-                            new ShowToastEvent({
-                                title: 'error',
-                                message: 'An error update',
-                                variant: 'error'
-                            })
-                        );
-                    }
 
-            } catch (error){
-                this.dispatchEvent(
-                    new ShowToastEvent({
-                        title: 'error',
-                        message: 'An error occurred while updating data',
-                        variant: 'error'
-                    })
-                );
-            }
-        }
+                    const upDate = await updateNote({
+                            noteId: noteId,
+                            changeLabelValue: editSticker.label,
+                            changeDescriptionValue: editSticker.description
+                    });
+                    console.log('Start update2');
+
+                        if(upDate){
+                            this.dispatchEvent(
+                                new ShowToastEvent({
+                                    title: 'Edit Sticker',
+                                    message: 'Update successfully',
+                                    variant: 'success'
+                                })
+                            );
+                            await this.loadSavedData();
+                        }else{
+                            this.dispatchEvent(
+                                new ShowToastEvent({
+                                    title: 'error',
+                                    message: 'An error update',
+                                    variant: 'error'
+                                })
+                            );
+                        }
+                } catch (error){
+                    console.error('Error searching notes by dae: ', error);
+                    // this.dispatchEvent(
+                    //     new ShowToastEvent({
+                    //         title: 'error',
+                    //         message: 'An error',
+                    //         variant: 'error'
+                    //     })
+                    // );
+                }
     }
 }

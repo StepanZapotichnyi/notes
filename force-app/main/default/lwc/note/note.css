@@ -45,6 +45,16 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    overflow-x: hidden;
+    /* overflow-x: hidden;
+    overflow-y: hidden; */
+    scrollbar-gutter: stable;
 
+}
+.pre-description{
+    scrollbar-gutter: stable;
+    overflow: hidden;
+    /* text-overflow: ellipsis; */
+    white-space: nowrap;
+    overflow-x: hidden;
+    overflow-y: hidden;
 }

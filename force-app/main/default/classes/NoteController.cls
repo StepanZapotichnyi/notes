@@ -1,20 +1,29 @@
-public with sharing class NoteController {
-    @AuraEnabled
-    public static Note__c saveData(String label, String description ) {
-        try {
+    public with sharing class NoteController {
+        @AuraEnabled
+        public static Note__c saveData(String label, String description ) {
+            try {
+                System.debug(' Label=' + label + ', Description=' + description);
+                Note__c newNote = new Note__c();
+                newNote.Label__c = label;
+                newNote.Description__c = description;
+                newNote.Created_Date__c = Datetime.now();
+                
+                insert newNote;
+                System.debug('Record successfully created:' + newNote.Id);
+                return newNote;
+            }catch(Exception e) {
+                System.debug('Error saving data: ' + e.getMessage());
+                throw new AuraHandledException('Error saving data: An error occurred while saving the data.');
+            }
+                
             
-            Note__c newNote = new Note__c();
-            newNote.Label__c = label;
-            newNote.Description__c = description;
-            newNote.Created_Date__c = Datetime.now();
-    
-            insert newNote;
+            // insert newNote;
 
-            return newNote;
-        } catch (Exception e) {
-            System.debug('Error saving data: ' + e.getMessage());
-            return null;
-        }
+            // return newNote;
+        // } catch (Exception e) {
+        //     System.debug('Error saving data: ' + e.getMessage());
+        //     return null;
+        // }
     }
     
     @AuraEnabled
@@ -53,29 +62,32 @@ public with sharing class NoteController {
     }
 
     @AuraEnabled
-    public static Note__c updateNote(String noteId, String changeLabelValue, String changeDescriptionValue){
+    public static Note__c updateNote(Id noteId, String changeLabelValue, String changeDescriptionValue){
         
         System.debug('Method updateNote: ============');
-        System.debug('nnteId: ' + noteId);
+        System.debug('noteId: ' + noteId);
         System.debug('changeLabelValue: ' + changeLabelValue);
         System.debug('changeDescriptionValue:' + changeDescriptionValue);
         
         
         Note__c note = [SELECT Id FROM Note__c WHERE Id = :noteId LIMIT 1];
-
-        if(note !=  null){
-            note.Label__c = changeLabelValue;
-            note.Description__c = changeDescriptionValue;
-            
-            update note; 
-            System.debug('Update========' + note); 
-        
-            return note;
-        }
-
-        System.debug('Note is not defined====');
-        return null;
-
+            try{
+                if(note !=  null){
+                    note.Label__c = changeLabelValue;
+                    note.Description__c = changeDescriptionValue;
+                    note.Created_Date__c = Datetime.now();
+                    
+                    update note; 
+                    System.debug('Update========' + note); 
+                
+                    return note;
+                }else{
+                    throw new AuraHandledException('Note not ');
+                }
+            } catch (Exception e) {
+                 System.debug('Note is not defined====');
+                 throw new AuraHandledException('Error upDating :' + e.getMessage());
+            }
         
     }
     

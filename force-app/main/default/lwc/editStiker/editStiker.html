@@ -1,24 +1,31 @@
     <template>
-        <lightning-modal-header label="Edit Sticker" ></lightning-modal-header>
-        <lightning-modal-body>
-            <div class="wraper">
-                <!-- <lightning-input
-                    label="Label"
-                    value={useDate.Label.Label__c}
-                    onchange={handleLabelChange}     
-                ></lightning-input> -->
-                <input class="sticker-label" label="Label" type="text" value={useDate.Label__c} onchange={handleLabelChange}>    
-                <!-- <p class="sticker-label">Label: {useDate.Label__c}</p> -->
-                <textarea class="sticker-description" label="Description" type="text"  onchange={handleDescriptionChange}>{useDate.Description__c}</textarea>
-                <!-- <p class="sticker-description">Description: {useDate.Description__c}</p> -->
-                <p class=" sticker-created_date">Created date: {useDate.Created_Date__c}</p>
+        <lightning-modal-header label="Edit Sticker" >
+        </lightning-modal-header>
+        <lightning-modal-body >
+            <div>
+                <div class="wraper">
+                    <div class="delete_stiket">
+                        <lightning-button-icon icon-name="action:delete" variant="destructive" alternative-text="Delete" class="delete-button " onclick={deleteHandler}></lightning-button-icon>
+                    </div>
+                    <div class="stiker_label-wraper">
+                        <!-- <h2 class="slds-text-title_caps">Label:</h2> -->
+                        <input class="sticker-label" label="Label" type="text" value={useDate.Label__c} onchange={handleLabelChange}>
+                    </div>
+                
+                    <div class="sticker-description_wraper">
+                        <!-- <h3 class="slds-text-title_caps">Description:</h3> -->
+                        <textarea class="sticker-description" label="Description" type="text"  onchange={handleDescriptionChange}>{useDate.Description__c}</textarea>
+                    </div>
+                    <div class="sticker-created_date-wraper">
+                        <p class=" sticker-created_date">Created date: {useDate.Created_Date__c}</p>
+                    </div>
+                    <!-- <input class="sticker-label" label="Label" type="text" value={useDate.Label__c} onchange={handleLabelChange}>
+                    <textarea class="sticker-description" label="Description" type="text"  onchange={handleDescriptionChange}>{useDate.Description__c}</textarea>
+                    <p class=" sticker-created_date">Created date: {useDate.Created_Date__c}</p> -->
+                </div>
             </div>
         </lightning-modal-body>
         <lightning-modal-footer>
-            <lightning-button
-            label="Save"
-            variant="Brand"
-            onclick={handleEdit}>
-            </lightning-button>
+            <lightning-button label="Save" variant="Brand" onclick={handleEdit}></lightning-button>
         </lightning-modal-footer>
     </template>
