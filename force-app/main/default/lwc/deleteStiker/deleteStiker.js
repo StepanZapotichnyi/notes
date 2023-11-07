@@ -5,7 +5,7 @@ export default class DeleteStiker extends LightningModal {
 
      handleYes(){
          
-        this.close('Yes');
+        this.close(true);
     }
     // handleYes(){
 
@@ -16,6 +16,6 @@ export default class DeleteStiker extends LightningModal {
     // }
 
     handleNo(){
-        this.close('No');
+        this.close(false);
     }
 }

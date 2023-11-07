@@ -3,21 +3,21 @@
         </lightning-modal-header>
         <lightning-modal-body >
             <div>
-                <div class="wraper">
-                    <div class="delete_stiket">
+                <div class="wrapper">
+                    <div class="delete_sticker">
                         <lightning-button-icon icon-name="action:delete" variant="destructive" alternative-text="Delete" class="delete-button " onclick={deleteHandler}></lightning-button-icon>
                     </div>
-                    <div class="stiker_label-wraper">
+                    <div class="sticker_label-wrapper">
                         <!-- <h2 class="slds-text-title_caps">Label:</h2> -->
-                        <input class="sticker-label" label="Label" type="text" value={useDate.Label__c} onchange={handleLabelChange}>
+                        <input class="sticker-label" label="Label" type="text" value={useData.Label__c} onchange={handleLabelChange}>
                     </div>
                 
-                    <div class="sticker-description_wraper">
+                    <div class="sticker-description_wrapper">
                         <!-- <h3 class="slds-text-title_caps">Description:</h3> -->
-                        <textarea class="sticker-description" label="Description" type="text"  onchange={handleDescriptionChange}>{useDate.Description__c}</textarea>
+                        <textarea class="sticker-description" label="Description" type="text"  onchange={handleDescriptionChange}>{useData.Description__c}</textarea>
                     </div>
-                    <div class="sticker-created_date-wraper">
-                        <p class=" sticker-created_date">Created date: {useDate.Created_Date__c}</p>
+                    <div class="sticker-created_date-wrapper">
+                        <p class=" sticker-created_date">Created date: {useData.Created_Date__c}</p>
                     </div>
                     <!-- <input class="sticker-label" label="Label" type="text" value={useDate.Label__c} onchange={handleLabelChange}>
                     <textarea class="sticker-description" label="Description" type="text"  onchange={handleDescriptionChange}>{useDate.Description__c}</textarea>

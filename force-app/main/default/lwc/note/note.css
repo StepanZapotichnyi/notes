@@ -43,7 +43,7 @@
     max-height: 150px;
     max-width: 150px;
     overflow: hidden;
-    text-overflow: ellipsis;
+    /* text-overflow: ellipsis; */
     white-space: nowrap;
     /* overflow-x: hidden;
     overflow-y: hidden; */
@@ -53,8 +53,8 @@
 .pre-description{
     scrollbar-gutter: stable;
     overflow: hidden;
-    /* text-overflow: ellipsis; */
-    white-space: nowrap;
+    text-overflow: ellipsis;
+    /* white-space: nowrap; */
     overflow-x: hidden;
     overflow-y: hidden;
 }

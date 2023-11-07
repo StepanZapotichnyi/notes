@@ -2,11 +2,11 @@
     <lightning-card variant="Narrow" title="New note" icon-name="standard:notes">
         <lightning-modal-header label="Note"></lightning-modal-header>
         <lightning-modal-body>
-            <div class="slds-var-p-around_medium">
+            <div class="slds-m-around_medium">
                 <lightning-input type="text" label="Label" onchange={handleLabelChange}></lightning-input>
             </div>
-            <div class="row slds-var-p-around_medium">
-                <lightning-textarea label="Description" value={descriptionValue} onchange={handleDescriptionChange}></lightning-textarea>
+            <div class="row slds-m-around_medium">
+                <lightning-textarea class="description-texterea" label="Description" value={descriptionValue} onchange={handleDescriptionChange}></lightning-textarea>
             </div>
         </lightning-modal-body> 
         <lightning-modal-footer>
