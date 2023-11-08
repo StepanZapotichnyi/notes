@@ -9,15 +9,15 @@
                     </div>
                     <div class="sticker_label-wrapper">
                         <!-- <h2 class="slds-text-title_caps">Label:</h2> -->
-                        <input class="sticker-label" label="Label" type="text" value={useData.Label__c} onchange={handleLabelChange}>
+                        <input class="sticker-label" label="Label" type="text" value={noteForEdit.Label__c} onchange={handleLabelChange}>
                     </div>
                 
                     <div class="sticker-description_wrapper">
                         <!-- <h3 class="slds-text-title_caps">Description:</h3> -->
-                        <textarea class="sticker-description" label="Description" type="text"  onchange={handleDescriptionChange}>{useData.Description__c}</textarea>
+                        <textarea class="sticker-description" label="Description" type="text"  onchange={handleDescriptionChange}>{noteForEdit.Description__c}</textarea>
                     </div>
                     <div class="sticker-created_date-wrapper">
-                        <p class=" sticker-created_date">Created date: {useData.Created_Date__c}</p>
+                        <p class=" sticker-created_date">Created date: {noteForEdit.Created_Date__c}</p>
                     </div>
                     <!-- <input class="sticker-label" label="Label" type="text" value={useDate.Label__c} onchange={handleLabelChange}>
                     <textarea class="sticker-description" label="Description" type="text"  onchange={handleDescriptionChange}>{useDate.Description__c}</textarea>

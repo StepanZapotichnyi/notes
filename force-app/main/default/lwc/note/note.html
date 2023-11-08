@@ -4,7 +4,7 @@
         <div class="slds-m-around_medium slds-grid ">
             <div class="slds-col">
                 <lightning-input type="date"  label="Search by date" value={searchDate} onchange={handleDateChange}></lightning-input>
-                    <p>{searchNull}</p>
+                    <p>{inputMessage}</p>
                     <div class="slds-col ">
                         <lightning-button-group>
                             <lightning-button class="" label="Search" variant="brand" onclick={handleSearch}></lightning-button>

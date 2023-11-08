@@ -15,8 +15,6 @@ export default class MyModal extends LightningModal{
         this.descriptionValue =event.target.value;
     }
 
-    
-
 
   //Close the modal button
     handleSave(){

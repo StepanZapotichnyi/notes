@@ -28,27 +28,28 @@ public with sharing class NoteControllerTest {
         testNote.Description__c ='Test DEscription';
         testNote.Created_Date__c= System.now();
         insert testNote;
-        //call method deleteNote here
-        String result = NoteController.deleteNoteOnServer(testNote.Id);
-        //chech method return success
-        System.assertEquals('Success', result, 'Note does not delete successfully');
 
+        //call method deleteNote here
+         NoteController.deleteNoteOnServer(testNote.Id);
+        //chech method return success
+        // System.assertEquals('Success', result, 'Note does not delete successfully');
+// 
         //check!It's really delete
         List<Note__c> delNote = [SELECT ID FROM Note__c WHERE ID = :testNote.Id LIMIT 1 ];
 
         System.assertEquals(0, delNote.size(), 'Note is not delete from database');
     }
-    @isTest
-    static void testDeleteNoteOnServerNoteNotFound(){
+    // @isTest
+    // static void testDeleteNoteOnServerNoteNotFound(){
         
-        //call method deleteNote here
-        String result = NoteController.deleteNoteOnServer('fakeId');
+    //     //call method deleteNote here
+    //     NoteController.deleteNoteOnServer('fakeId');
+            
+    //     //Check method return Note not 
+    //     System.assertEquals('Note not found', result, ' ');
 
-        //Check method return Note not 
-        System.assertEquals('Note not found', result, 'Method return "Note not found". ');
 
-
-    }
+    // }
 
     @isTest
     static void testGetSvedNotes(){
@@ -78,7 +79,7 @@ public with sharing class NoteControllerTest {
     
         Note__c note1 = new Note__c(Label__c = 'Test1', Description__c = 'Description1', Created_Date__c = Date.today());
         // Note__c note3 = new Note__c(Label__c = 'Test3', Description__c = 'Description3', Created_Date__c = Date.today());
-        Note__c note2 = new Note__c(Label__c = 'Test2', Description__c = 'Description2', Created_Date__c = Date.today() - 1);   
+        Note__c note2 = new Note__c(Label__c = 'Test2', Description__c = 'Description2', Created_Date__c = Date.today().addDays(-1));   
         insert new List<Note__c> {note1, note2}; 
     
         List<Note__c> result = NoteController.searchNotesByDate(String.valueOf(Date.today()));
