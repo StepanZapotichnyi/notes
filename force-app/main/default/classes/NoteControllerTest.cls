@@ -31,25 +31,12 @@ public with sharing class NoteControllerTest {
 
         //call method deleteNote here
          NoteController.deleteNoteOnServer(testNote.Id);
-        //chech method return success
-        // System.assertEquals('Success', result, 'Note does not delete successfully');
-// 
-        //check!It's really delete
+    
         List<Note__c> delNote = [SELECT ID FROM Note__c WHERE ID = :testNote.Id LIMIT 1 ];
 
         System.assertEquals(0, delNote.size(), 'Note is not delete from database');
     }
-    // @isTest
-    // static void testDeleteNoteOnServerNoteNotFound(){
-        
-    //     //call method deleteNote here
-    //     NoteController.deleteNoteOnServer('fakeId');
-            
-    //     //Check method return Note not 
-    //     System.assertEquals('Note not found', result, ' ');
 
-
-    // }
 
     @isTest
     static void testGetSvedNotes(){
@@ -78,7 +65,6 @@ public with sharing class NoteControllerTest {
     static void testSearchNotesByDate(){
     
         Note__c note1 = new Note__c(Label__c = 'Test1', Description__c = 'Description1', Created_Date__c = Date.today());
-        // Note__c note3 = new Note__c(Label__c = 'Test3', Description__c = 'Description3', Created_Date__c = Date.today());
         Note__c note2 = new Note__c(Label__c = 'Test2', Description__c = 'Description2', Created_Date__c = Date.today().addDays(-1));   
         insert new List<Note__c> {note1, note2}; 
     
@@ -86,9 +72,7 @@ public with sharing class NoteControllerTest {
     
         System.assertEquals(1, result.size(), 'Result method is null.');
     
-        System.assertEquals(note1.Id, result[0].Id, 'First note is not found.');
-        // System.assertEquals(note2.Id, result[1].Id, 'List of found notes is empty.');
-    
+        System.assertEquals(note1.Id, result[0].Id, 'First note is not found.');    
     }
 
     
@@ -107,14 +91,10 @@ public with sharing class NoteControllerTest {
         
         
         //check update LAbel and Description 
-        // System.assert(updateNote.Created_Date__c != newUpdated.Created_Date__c , 'Date updated');
         System.assertNotEquals(null, updatedNote, 'The note was not updated');
         System.assertEquals('Updated Label', updatedNote.Label__c,  ' The Label was not updated.');
         System.assertEquals('Updated Description', updatedNote.Description__c, 'The Description was not updated');
 
-
-        //   Note__c nonExistentNote = NoteController.updateNote(testUpdate.id, 'Invalid Label', 'Invalid Description');
-        //   System.assertEquals(null, nonExistentNote, 'Non-existent Note should retun null');
 
     }
 

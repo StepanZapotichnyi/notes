@@ -24,7 +24,6 @@
         
             try {
                 List<Note__c> noteToDelete = [SELECT Id FROM Note__c WHERE Id = :noteId LIMIT 1];
-                //List<Note__c> noteToDelete is collection and beacause  if does not use  List<Note__c>   It's  erorr Emppty()
                 if (!noteToDelete.isEmpty()) { 
                     delete noteToDelete;
                 }
@@ -62,31 +61,13 @@
 
     @AuraEnabled
     public static Note__c updateNote(Id noteId, String changeLabelValue, String changeDescriptionValue){
-        
-        System.debug('Method updateNote: ============');
-        System.debug('noteId: ' + noteId);
-        System.debug('changeLabelValue: ' + changeLabelValue);
-        System.debug('changeDescriptionValue:' + changeDescriptionValue);
-        
-        
-        // Note__c note = [SELECT Id FROM Note__c WHERE Id = :noteId LIMIT 1];
+    
             try{
-                // if(note !=  null){
-                    Note__c note = new Note__c(id = noteId,
-                                                Label__c = changeLabelValue,
-                                                 Description__c = changeDescriptionValue,
-                                                Created_Date__c = Datetime.now());
-                    
-                    // note.Label__c = changeLabelValue;
-                    // note.Description__c = changeDescriptionValue;
-                    // note.Created_Date__c = Datetime.now();
-                    
+                    Note__c note = new Note__c(id = noteId,Label__c = changeLabelValue,Description__c = changeDescriptionValue,Created_Date__c = Datetime.now());
                     update note; 
-                    System.debug('Update========' + note); 
                 
                     return note;
             } catch (Exception e) {
-                 System.debug('Note is not defined====');
                  throw new AuraHandledException('Error upDating :' + e.getMessage());
             }
             
