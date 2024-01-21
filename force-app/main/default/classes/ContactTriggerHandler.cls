@@ -22,7 +22,12 @@ public  class ContactTriggerHandler {
             System.debug('wwww' + accountIdToContacts);
         }
         
-        System.debug('Mapa' + accountIdToContacts);
+        List<Type_Of_Choise__mdt> types = Type_Of_Choise__mdt.getAll().values();
+
+        Map<String, String> typeToMetadateType = new Map<String, String>();
+        for(Type_Of_Choise__mdt typeRecord : types){
+            typeToMetadateType.put(typeRecord.MType__c, typeRecord.MLevel__c);
+        }
 
         for(Account acc : newAccounts) {  
 
@@ -37,44 +42,12 @@ public  class ContactTriggerHandler {
                 if(!updateContactIds.contains(con.id)){
 
                     if(acc.Type != oldAccount.get(acc.Id).Type){
-                        System.debug('===>>>');
-                    
-                        /////////////////////////////// There should be Map here
-                        // String typeResult = '';
-                        System.debug('ACCCC' + acc.Type);
-
-                        Map <String, String> typeChoise = new Map<String, String> {'Prospect' => 'Secondary',
-                                                                                    'Customer - Direct' => 'Secondary',
-                                                                                    'Customer - Channel' => 'Tertiary',
-                                                                                    'Channel Partner / Reseller' => 'Tertiary',
-                                                                                    'Installation Partner' => 'Primary',
-                                                                                    'Technology Partner' => 'Primary',
-                                                                                    'Other' => '',
-                                                                                    null => ''}; 
-
-                        System.debug('fff' +  typeChoise);
-                        System.debug('fff' +  typeChoise.get(acc.Type));
-                        // if(acc.Type == 'Prospect' || acc.Type == 'Customer - Direct'){
-                        //     typeResult = 'Secondary';
-    
-                        // }else if(acc.Type == 'Customer - Channel' || acc.Type == 'Channel Partner / Reseller'){
-                        //     typeResult = 'Tertiary';
-                            
-                        // }else if(acc.Type == 'Installation Partner' || acc.Type == 'Technology Partner'){
-                        //     typeResult = 'Primary';
-                        // }else if(acc.Type == 'Other' || acc.Type == null){
-                        //     typeResult = '';
-                        // }
-                        // typeResult = 
-                        con.Level__c = typeChoise.get(acc.Type); 
-                        System.debug('Its ok');
-                        
+                        con.Level__c = typeToMetadateType.get(acc.Type); 
+                                            
                     }
-                    //////////////////////
+                    // //////////////////////
                     if (acc.AccountNumber != oldAccount.get(acc.Id).AccountNumber){
-                        System.debug('===!!!');
                         con.Number__c = acc.AccountNumber;
-                        System.debug('Its ok1');
                     }
                     //Checking whether a contact has been added 
                     if (!listToUpdateContacts.contains(con)) {
@@ -85,61 +58,57 @@ public  class ContactTriggerHandler {
             }    
         }
         if(!listToUpdateContacts.isEmpty()){
-        update listToUpdateContacts;
+            update listToUpdateContacts;
         }    
     } 
     
-    public static void updateContactsAllFieldsBefore(List<Contact> newContacts, Map<Id, Contact> oldContacts){
-
-        // List<Contact> contactsToUpdate = new List<Contact>();
+    public static void updateContactsAllFieldAfter(List<Contact> newContacts, Map<Id, Contact> oldContacts){
 
         Set<Id> accountIds = new Set<Id>();
-        Set<Id> updateContacts = new Set<Id>();
+        Set<Id> contactsIdsToUpdate = new Set<Id>();
+        Map<Id, List<Contact>> accountIdToContacts = new Map<Id, List<Contact>>();
         
         for (Contact con : newContacts){
             accountIds.add(con.AccountId);
         }
         System.debug('New AccountId------>' + accountIds);
-
-        List<Contact> relatedContacts =  [SELECT Id, Level__c, AccountId FROM Contact WHERE AccountId  IN :accountIds ];
         
-        System.debug('Related Contacts' + relatedContacts);
-
-        Map<Id, List<Contact>> accountIdToContacts = new Map<Id, List<Contact>>();
-
-        for(Contact cont : relatedContacts){
-            System.debug('wwww' + accountIdToContacts);
-            if(!accountIdToContacts.containsKey(cont.AccountId)){
-                accountIdToContacts.put(cont.AccountId, new List<Contact>());
-                System.debug('aaqqqq' + accountIdToContacts);
+        // ///////////////////////////////////////////new code
+        List<Account> accountsWithContacts = [SELECT Id,  (SELECT Id, Level__c, AccountId FROM Contacts) FROM Account WHERE ID IN: accountIds];
+        
+            for (Account acc : accountsWithContacts){
+                List<Contact> contacts = acc.Contacts;
+                accountIdToContacts.put(acc.Id, contacts);    
             }
-            accountIdToContacts.get(cont.AccountId).add(cont);
-            System.debug('GEt and ADdd' + accountIdToContacts);
-        }
-        System.debug('Map' + accountIdToContacts);
-    
+        
+            System.debug('>>>>>>>' + accountIdToContacts);
+            /////////////////////////////////////////////////    
 
         for (Contact cont : newContacts){
             System.debug('Camon');
+            if(!accountIdToContacts.containsKey(cont.AccountId)){
+                continue;
+            }
 
             for(Contact con : accountIdToContacts.get(cont.AccountId)){
                 System.debug('qwq' + accountIdToContacts.get(cont.AccountId));
                 Contact oldContact = oldContacts.get(cont.Id);
+                                    
+                if(!contactsIdsToUpdate.contains(con.Id)){    
 
-                    
-                if(!updateContacts.contains(con.Id)){
-    
-                    if(oldContact !=null && cont.Level__c != oldContact.Level__c){
+                    if( cont.Level__c != oldContact.Level__c){
                         System.debug('olDLevel-------' + oldContact.Level__c); /// old Level__c value
                         System.debug('Cont-------' + cont.Level__c );
                         con.Level__c  = cont.Level__c;
                         listToUpdateContacts.add(con);
-                    }                    
-                    updateContacts.add(con.Id);
+                    }
+                    else if(oldContact != null){
+                        continue;
+                    }                   
+                    contactsIdsToUpdate.add(con.Id);
                 }
             }
         }
-
         if(!listToUpdateContacts.isEmpty()){
             update listToUpdateContacts;
         }  
