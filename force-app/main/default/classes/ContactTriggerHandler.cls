@@ -4,60 +4,58 @@ public  class ContactTriggerHandler {
     public static List<Contact> listToUpdateContacts = new List<Contact>();
 
 
-    public static void updateContactsFieldAfter(List<Account> newAccounts, Map<Id, Account> oldAccount){
-            System.debug('NewAccounts'+  newAccounts);
+    public static void updateContactsFieldAfter(List<Account> newAccounts, Map<Id, Account> oldAccount) {
     
-        List<Contact> relatedContacts = [SELECT Id, Number__c, Level__c, AccountId FROM Contact WHERE AccountId IN :newAccounts];
+        List<Contact> relatedContacts = [
+            SELECT
+                Id, Number__c, Level__c, AccountId 
+            FROM
+                Contact 
+            WHERE 
+                AccountId IN :newAccounts
+            ];
         Set<Id> updateContactIds = new Set<Id>();    
         Map<Id, List<Contact>> accountIdToContacts = new Map<Id, List<Contact>>();
 
-            //System.debug('aaaaa' + relatedContacts);
         for (Contact cont : relatedContacts) {
-            //System.debug('bbbb' + accountIdToContacts.containsKey(cont.AccountId));
             if (!accountIdToContacts.containsKey(cont.AccountId)) {
                 accountIdToContacts.put(cont.AccountId, new List<Contact>{cont});
-                System.debug('aaqqqq' + accountIdToContacts);
             }
             accountIdToContacts.get(cont.AccountId).add(cont);
-            System.debug('wwww' + accountIdToContacts);
         }
         
         List<Type_Of_Choise__mdt> types = Type_Of_Choise__mdt.getAll().values();
 
         Map<String, String> typeToMetadateType = new Map<String, String>();
-        for(Type_Of_Choise__mdt typeRecord : types){
+        for(Type_Of_Choise__mdt typeRecord : types) {
             typeToMetadateType.put(typeRecord.MType__c, typeRecord.MLevel__c);
         }
 
         for(Account acc : newAccounts) {  
-
             // check if this account is in contacts
-            if(!accountIdToContacts.containsKey(acc.Id)){
+            if(!accountIdToContacts.containsKey(acc.Id)) {
                 continue;
             }
-            System.debug('aa' +accountIdToContacts.containsKey(acc.Id));
 
             for(Contact con : accountIdToContacts.get(acc.Id)) {
                 // check duplicates
-                if(!updateContactIds.contains(con.id)){
-
-                    if(acc.Type != oldAccount.get(acc.Id).Type){
+                if(!updateContactIds.contains(con.id)) {
+                    if(acc.Type != oldAccount.get(acc.Id).Type) {
                         con.Level__c = typeToMetadateType.get(acc.Type); 
-                                            
                     }
-                    // //////////////////////
-                    if (acc.AccountNumber != oldAccount.get(acc.Id).AccountNumber){
+                    
+                    if(acc.AccountNumber != oldAccount.get(acc.Id).AccountNumber) {
                         con.Number__c = acc.AccountNumber;
                     }
-                    //Checking whether a contact has been added 
-                    if (!listToUpdateContacts.contains(con)) {
+
+                    if(!listToUpdateContacts.contains(con)) {
                         listToUpdateContacts.add(con);
                     }
                     updateContactIds.add(con.id);
                 }
             }    
         }
-        if(!listToUpdateContacts.isEmpty()){
+        if(!listToUpdateContacts.isEmpty()) {
             update listToUpdateContacts;
         }    
     } 
@@ -68,48 +66,47 @@ public  class ContactTriggerHandler {
         Set<Id> contactsIdsToUpdate = new Set<Id>();
         Map<Id, List<Contact>> accountIdToContacts = new Map<Id, List<Contact>>();
         
-        for (Contact con : newContacts){
+        for (Contact con : newContacts) {
             accountIds.add(con.AccountId);
         }
-        System.debug('New AccountId------>' + accountIds);
-        
-        // ///////////////////////////////////////////new code
-        List<Account> accountsWithContacts = [SELECT Id,  (SELECT Id, Level__c, AccountId FROM Contacts) FROM Account WHERE ID IN: accountIds];
-        
-            for (Account acc : accountsWithContacts){
-                List<Contact> contacts = acc.Contacts;
-                accountIdToContacts.put(acc.Id, contacts);    
-            }
-        
-            System.debug('>>>>>>>' + accountIdToContacts);
-            /////////////////////////////////////////////////    
 
-        for (Contact cont : newContacts){
-            System.debug('Camon');
-            if(!accountIdToContacts.containsKey(cont.AccountId)){
+        List<Account> accountsWithContacts = [
+            SELECT 
+                Id,  
+                (SELECT Id, Level__c, AccountId FROM Contacts) 
+            FROM 
+                Account 
+            WHERE 
+                ID IN: accountIds
+        ];
+    
+        for (Account acc : accountsWithContacts) {
+            List<Contact> contacts = acc.Contacts;
+            accountIdToContacts.put(acc.Id, contacts);    
+        }
+
+        for (Contact cont : newContacts) {
+            if(!accountIdToContacts.containsKey(cont.AccountId)) {
                 continue;
             }
 
-            for(Contact con : accountIdToContacts.get(cont.AccountId)){
-                System.debug('qwq' + accountIdToContacts.get(cont.AccountId));
+            for(Contact con : accountIdToContacts.get(cont.AccountId)) {
                 Contact oldContact = oldContacts.get(cont.Id);
                                     
-                if(!contactsIdsToUpdate.contains(con.Id)){    
+                if(!contactsIdsToUpdate.contains(con.Id)) {    
 
-                    if( cont.Level__c != oldContact.Level__c){
-                        System.debug('olDLevel-------' + oldContact.Level__c); /// old Level__c value
-                        System.debug('Cont-------' + cont.Level__c );
+                    if( cont.Level__c != oldContact.Level__c) {
                         con.Level__c  = cont.Level__c;
                         listToUpdateContacts.add(con);
                     }
-                    else if(oldContact != null){
+                    else if(oldContact != null) {
                         continue;
                     }                   
                     contactsIdsToUpdate.add(con.Id);
                 }
             }
         }
-        if(!listToUpdateContacts.isEmpty()){
+        if(!listToUpdateContacts.isEmpty()) {
             update listToUpdateContacts;
         }  
     }
