@@ -1,0 +1,88 @@
+<template>
+    <!-- standart li-data-table -->
+    <lightning-card label="Convert currency">
+        <div class="slds-box slds-theme-default">
+            <table class= "slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <th class="" scope="col">
+                            S.no
+                        </th>
+                        <th class="" scope="col">
+                            Currency
+                        </th>
+                        <th class="" scope="col">
+                            Amount
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="slds-hint-parent">
+                        <th data-label="S.no" scope="row">
+                            <div class="slds-truncate" title="one">1</div>
+                        </th>
+                        <td data-label="Currency">
+                            <div class="slds-truncate">EUR</div>
+                        </td>
+                        <td data-label="Amount">
+                            <div class="slds-truncate">{exchangeData.data.EUR}</div>
+                        </td>
+                    </tr>
+
+                    <tr class="slds-hint-parent">
+                        <th data-label="S.no" scope="row">
+                            <div class="slds-truncate" title="two">2</div>
+                        </th>
+                        <td data-label="Currency">
+                            <div class="slds-truncate">GPB</div>
+                        </td>
+                        <td data-label="Amount">
+                            <div class="slds-truncate">{exchangeData.data.GBP}</div>
+                        </td>
+                    </tr>
+                    
+                    <tr class="slds-hint-parent">
+                        <th data-label="S.no" scope="row">
+                            <div class="slds-truncate" title="three">3</div>
+                        </th>
+                        <td data-label="Currency">
+                            <div class="slds-truncate">CZK</div>
+                        </td>
+                        <td data-label="Amount">
+                            <div class="slds-truncate">{exchangeData.data.CZK}</div>
+                        </td>
+                    </tr>
+
+                    <tr class="slds-hint-parent">
+                        <th data-label="S.no" scope="row">
+                            <div class="slds-truncate" title="Four">4</div>
+                        </th>
+                        <td data-label="Currency">
+                            <div class="slds-truncate">PNL</div>
+                        </td>
+                        <td data-label="Amount">
+                            <div class="slds-truncate">{exchangeData.data.PLN}</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- <div class="slds-m-around_medium">
+            <lightning-input type="text" label="Enter currency" value={exchangeFrom} onchange={handleCurrencyFrom} placeholder="Example 'USD'"></lightning-input>
+            <lightning-input type="text" label="Enter currency" value={exchangeTo} onchange={handleCurrencyTo} placeholder="Example 'CZK'"></lightning-input>
+            <lightning-input type="number" label="Enter amount" value={ledAmount} onchange={handleCurrencySum} ></lightning-input>
+        </div>
+        <lightning-button class="slds-m-around_medium" label="Convert" variant="Brand" onclick={handleGetConvert}></lightning-button>
+        <div class="slds-m-around_medium" if:true={convertKey}>
+            <p>{convertKey}</p>
+            <p>{convertRate}</p> 
+        </div>
+        
+        <div class="slds-m-around_medium" if:true={exchangeText}>
+            <p>{exchangeText}</p>
+        </div> -->
+
+    
+    </lightning-card>
+</template>

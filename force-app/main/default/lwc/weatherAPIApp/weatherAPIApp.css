@@ -1,0 +1,37 @@
+.wrapper{
+    background-color: #9050E9;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+
+}
+.wrapper-name{
+
+    font-weight: bold;
+    color: white;
+    font-size: 20px;
+}
+
+.wrapper-icon{
+    /* position: relative */
+    float: right;
+    /* margin-top: -5px; */
+}
+
+.wrapper-icon-temperature{
+
+    color: aliceblue;
+    font-size: 25px;
+    margin-left: 10px;
+}
+.local_time{
+     color: azure;
+     font-weight: bold;
+     font-size: 15px;
+}
+
+.diagonal-gradient {
+    background: linear-gradient(to bottom right,#9050E9, rgb(72, 29, 243));
+  }

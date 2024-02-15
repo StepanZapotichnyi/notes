@@ -1,0 +1,44 @@
+<template>
+    <div class="">
+        <lightning-card title="Weather">
+            <div class="slds-m-around_medium">
+                <lightning-input type="text" label="Enter City" value={searchCity}  onchange={handleDataChange}> </lightning-input>
+            </div>
+            <lightning-button class="slds-m-around_medium" label="Fetch weather" onclick={handleGetWeather} variant="Brand"></lightning-button>
+            
+            <template lwc:if={isLoading}>
+                <div class="exampleHolder">
+                    <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                </div> 
+            </template>
+
+            
+            <template lwc:if={result}>
+                
+                <div class="wrapper slds-m-around_medium diagonal-gradient">
+                    <div class="slds-m-around_medium  wrapper-icon">
+                        <img src={result.current.condition.icon} alt="Weather Icon not found"/>
+                        <p class="wrapper-icon-temperature"> {result.current.temp_c}°C</p>
+
+                    </div>
+                    <div class="slds-m-around_medium wrapper-name">
+                        <p>{result.location.name}</p>
+                        <p>{result.location.country}</p>
+                        <p>{result.location.region}</p>
+                        <p>{result.current.condition.text}</p>
+                    </div>
+                    
+                    
+                        <div class="slds-m-around_medium">
+                            <p class="local_time">Local Time: {result.location.localtime}</p>
+                        </div>
+                </div>
+            </template>
+            <template lwc:elseif={error}>
+                <div class="slds-m-around_medium">
+                    <p>{error}</p>
+                </div>
+            </template>
+        </lightning-card>
+    </div>
+</template>
