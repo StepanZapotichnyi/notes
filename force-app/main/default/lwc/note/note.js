@@ -128,7 +128,7 @@ export default class Note extends LightningElement {
                 noteId: noteId,
             });
         
-                // call function to update and to delete
+                // call function to update OR to delete
                 if(editStickerAnswer.isDelete === true){
                     await this.handleDeleteNote(noteId);
 

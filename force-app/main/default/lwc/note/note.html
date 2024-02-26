@@ -15,7 +15,6 @@
         </div>
         <lightning-layout>
             <lightning-layout-item size="12" class="notes-container">
-                <!-- <c-edit-stiker use-date={noteUse}></c-edit-stiker>      -->
                 <template for:each={saveNotes} for:item="note">   
                         <div key={note.Id} class="note-sticker" onclick={handleStickerEdit} data-id={note.Id}> 
                             <!-- new -->
@@ -24,7 +23,6 @@
                                     <div class="slds-m-around_large">
                                         <p class="note-label">{note.Label__c}</p>
                                         <div class="slds-shrink">
-                                            <!-- <lightning-button-icon icon-name="utility:delete" variant="base" alternative-text="Delete" class="slds-button_icon-small slds-float_right slds-m-top_xx-small" data-id={note.Id} onclick={handleDelete}></lightning-button-icon> -->
                                         </div>
                                         <div class="note-description">  
                                             <pre class="pre-description">{note.Description__c}</pre>

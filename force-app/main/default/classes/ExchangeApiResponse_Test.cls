@@ -3,7 +3,7 @@
 //
 
 @IsTest
-public class ExchangeApiControllerJSON_Test {
+public class ExchangeApiResponse_Test {
 	
 	// This test method should give 100% coverage
 	static testMethod void testParse() {
@@ -44,16 +44,16 @@ public class ExchangeApiControllerJSON_Test {
 		'        \"ZAR\": 18.9819228203'+
 		'    }'+
 		'}';
-		ExchangeApiControllerJSON r = ExchangeApiControllerJSON.parse(json);
+		ExchangeApiResponse r = ExchangeApiResponse.parse(json);
 		System.assert(r != null);
 
 		json = '{\"TestAMissingObject\": { \"TestAMissingArray\": [ { \"TestAMissingProperty\": \"Some Value\" } ] } }';
-		ExchangeApiControllerJSON objExchangeApiControllerJSON = new ExchangeApiControllerJSON(System.JSON.createParser(json));
-		System.assert(objExchangeApiControllerJSON != null);
-		System.assert(objExchangeApiControllerJSON.data == null);
+		ExchangeApiResponse objExchangeApiResponse = new ExchangeApiResponse(System.JSON.createParser(json));
+		System.assert(objExchangeApiResponse != null);
+		System.assert(objExchangeApiResponse.data == null);
 
 		json = '{\"TestAMissingObject\": { \"TestAMissingArray\": [ { \"TestAMissingProperty\": \"Some Value\" } ] } }';
-		ExchangeApiControllerJSON.Data objData = new ExchangeApiControllerJSON.Data(System.JSON.createParser(json));
+		ExchangeApiResponse.Data objData = new ExchangeApiResponse.Data(System.JSON.createParser(json));
 		System.assert(objData != null);
 		System.assert(objData.AUD == null);
 		System.assert(objData.BGN == null);

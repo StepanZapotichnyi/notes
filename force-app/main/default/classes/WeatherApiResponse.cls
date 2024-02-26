@@ -1,11 +1,7 @@
-
 public class WeatherApiResponse {
-	// public class Status {
-	// 	@AuraEnabled public Integer statusCode;
-	// }
+
 
 	public class Condition {
-		//add auraEnabled
 		@AuraEnabled public String text;
 		@AuraEnabled public String icon;
 		@AuraEnabled public Integer code;

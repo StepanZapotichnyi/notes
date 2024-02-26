@@ -15,9 +15,7 @@
 }
 
 .wrapper-icon{
-    /* position: relative */
     float: right;
-    /* margin-top: -5px; */
 }
 
 .wrapper-icon-temperature{
@@ -25,6 +23,12 @@
     color: aliceblue;
     font-size: 25px;
     margin-left: 10px;
+}
+.wrapper-name_condition{
+    
+    font-weight: 400;
+    color: white;
+    font-size: 15px;
 }
 .local_time{
      color: azure;

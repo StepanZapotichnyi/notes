@@ -7,31 +7,24 @@ export default class WeatherAPIApp extends LightningElement {
     searchCity;
     @track result;
     @track error;
-    @track isLoading = false;
+    @track isLoading = false; 
     
 
     handleDataChange(event) {
         this.searchCity = event.target.value;
-        console.log('input-------'+this.searchCity);
     }
 
 
     handleGetWeather() {
 
         this.isLoading= true;
-        console.log('after click-------' +this.searchCity);
-
         
         getWeatherData({city: this.searchCity})
-            .then(response => {  
-                console.log('response-----'+response);                               
+            .then(response => {  ;                               
                 this.result = response;
-                
-                console.log('response-----'+ result);                               
+                                               
             })
             .catch(error => {
-                // console.log('error: ' + JSON.stringify(error));
-                // console.log('error message: ' + JSON.parse(error.body.message).error.message);
                 this.error = error.body.message;
                 console.log('error message: ' + this.error);
                 
@@ -51,5 +44,4 @@ export default class WeatherAPIApp extends LightningElement {
             });
     }
 
-        //add spinner
 }

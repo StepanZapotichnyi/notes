@@ -2,7 +2,6 @@ public with sharing class WeatherApiController {
     @AuraEnabled
 
     public static  WeatherApiResponse getWeatherData(String city) {
-        // add try and catch+
         String strResponse = null;
         WeatherApiResponse weatherData = new WeatherApiResponse();
         
@@ -17,23 +16,14 @@ public with sharing class WeatherApiController {
         HttpResponse response = new HttpResponse();
         System.debug('---url-----' + req.getEndpoint() );
         response = ht.send(req);
-        //add deserialization+
         
         if (response.getStatusCode() == 200) {
-            System.debug('work');
-            /////////////////////////////////////////////////
-            weatherData = WeatherApiResponse.parse(response.getBody());
-            System.debug('weather' +weatherData);
+            weatherData = WeatherApiResponse.parse(response.getBody());            
             return weatherData;
-            ///////////////////////////////////////////////////////////////////
         }else{
             String errorResponse = response.getBody();
             WeatherError weatherError = WeatherError.parse(errorResponse);  
-                System.debug('eeeeerorr'+ weatherError);
             throw new CalloutException(weatherError.error.message);
         }            
-            //return error message+
-            //create class with response structure(JSON2 APEX)+
-            //write test class
     }
 }
